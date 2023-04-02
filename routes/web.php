@@ -17,14 +17,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-use App\Http\Controllers\UserController;
-Route::resource('users','UserController')->middleware('auth')->group(function(){
-    Route::post('animalnews/create', 'create')->name('animalnews.create');
-    Route::get('animalnews/create', 'add')->name('animalnews.add');
-    Route::get('animalnews', 'index')->name('animalnews.index');
-    Route::get('animalnews/edit', 'edit')->name('animalnews.edit');
-    Route::post('animalnews/edit', 'update')->name('animalnews.update');
-    Route::get('animalnews.delete', 'delete')->name('animalnews.delete');
+use App\Http\Controllers\TopicController;
+Route::controller(TopicController::class)->middleware('auth')->group(function() {
+    Route::get('topic/create', 'add')->name('topic.add');
+    Route::post('topic/create', 'create')->name('topic.create');
+    Route::get('topic', 'index')->name('topic.index');
+    Route::get('topic/edit', 'edit')->name('topic.edit');
+    Route::post('topic/edit', 'update')->name('topic.update');
+    Route::get('topic.delete', 'delete')->name('topic.delete');
 
 });
 
@@ -33,3 +33,6 @@ Route::resource('users','UserController')->middleware('auth')->group(function(){
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+

@@ -19,7 +19,7 @@ class CategorySeeder extends Seeder
         Category::truncate();
         $names = array('犬', '猫', '鳥');
         foreach($names as $name){
-            category::create(['name' => $names]);
+            Category::create(['name' => $name]);
         }
     }
 }

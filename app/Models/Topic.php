@@ -9,7 +9,13 @@ class Topic extends Model
 {
     use HasFactory;
     
-     protected $fillable = ['title', 'body', 'user_id', 'category_id'];
+    protected $guarded = array('id');
+    
+    public static $rules = array(
+        'title' => 'required',
+        'category' => 'required',
+        'body' => 'required',
+        );
 
     public function user()
     {
@@ -20,4 +26,6 @@ class Topic extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    
+     
 }

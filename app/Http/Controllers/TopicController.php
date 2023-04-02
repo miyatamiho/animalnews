@@ -4,27 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Category;
+
+use App\Models\Topic;
+
 class TopicController extends Controller
 {
     public function add()
     {
-        return view('animalnews.create');
+        $categories = Category::all();
+        return view('topic.create')->with('categories', $categories);
     }
     
     //記事投稿をする
     public function create(Request $request)
     {
-        $this->validate($request, Animal::$rules);
+        $this->validate($request, Topic::$rules);
 
-        $animal = new Animal;
+        $topic = new Topic;
         $form = $request->all();
 
         // フォームから画像が送信されてきたら、保存して、$news->image_path に画像のパスを保存する
         if (isset($form['image'])) {
             $path = $request->file('image')->store('public/image');
-            $animal->image_path = basename($path);
+            $topic->image_path = basename($path);
         } else {
-            $animal->image_path = null;
+            $topic->image_path = null;
         }
 
         // フォームから送信されてきた_tokenを削除する
@@ -33,37 +38,37 @@ class TopicController extends Controller
         unset($form['image']);
 
         // データベースに保存する
-        $animal->fill($form);
-        $animal->save();
+        $topic->fill($form);
+        $topic->save();
         
-        return redirect('animalnews/create');
+        return redirect('topic/create');
     }
     public function index(Request $request)
     {
         $cond_title = $request->cond_title;
         if ($cond_title != '') {
             // 検索されたら検索結果を取得する
-            $posts = Animal::where('title', $cond_title)->get();
+            $posts = Topic::where('title', $cond_title)->get();
         } else {
             // それ以外はすべてのニュースを取得する
-            $posts = Animal::all();
+            $posts = Topic::all();
         }
-        return view('admin.animalnews.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+        return view('topic.index', ['posts' => $posts, 'cond_title' => $cond_title]);
     }
 
     public function edit(Request $request)
     {
-        $animal = Animal::find($request->id);
-        if (empty($animal)) {
+        $topic = Topic::find($request->id);
+        if (empty($topic)) {
             abort(404);
         }    
-        return view('animalnews.edit', ['news_form' => $animal]);
+        return view('topic.edit', ['news_form' => $animal]);
     }
     public function update(Request $request)
     {
-        $this->validate($request, Animal::$rules);
+        $this->validate($request, Topic::$rules);
         // News Modelからデータを取得する
-        $animal = Animal::find($request->id);
+        $topic = Topic::find($request->id);
         // 送信されてきたフォームデータを格納する
         $news_form = $request->all();
         
@@ -81,14 +86,14 @@ class TopicController extends Controller
         unset($news_form['_token']);
         
         // 該当するデータを上書きして保存する
-        $animal->fill($news_form)->save();
+        $topic->fill($news_form)->save();
         
         $record = new Record();
-        $record->animal_id = $animal->id;
+        $record->animalnews_id = $topic->id;
         $record->edited_at = Carbon::now();
         $record->save();
         
-        return redirect('animalnews');
+        return redirect('topic');
     }
     public function search(Request $request)
     {
@@ -96,6 +101,6 @@ class TopicController extends Controller
     $topics = Topic::where('title', 'LIKE', "%{$keyword}%")
                   ->orWhere('body', 'LIKE', "%{$keyword}%")
                   ->get();
-    return view('animalnews.index', compact('topics'));
+    return view('topic.index', compact('topics'));
     }
 }
