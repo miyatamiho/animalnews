@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('categories_id');
+            $table->biginteger('category_id');
             $table->string('content');
-            $table->string('user_id');
+            $table->biginteger('user_id');
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }

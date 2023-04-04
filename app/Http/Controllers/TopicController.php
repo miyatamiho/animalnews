@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Auth;
+
 use App\Models\Category;
 
 use App\Models\Topic;
@@ -39,6 +41,7 @@ class TopicController extends Controller
 
         // データベースに保存する
         $topic->fill($form);
+        $topic->user_id = Auth::id();
         $topic->save();
         
         return redirect('topic/create');

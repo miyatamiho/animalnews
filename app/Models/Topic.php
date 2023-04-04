@@ -13,8 +13,8 @@ class Topic extends Model
     
     public static $rules = array(
         'title' => 'required',
-        'category' => 'required',
-        'body' => 'required',
+        'category_id' => 'required',
+        'content' => 'required',
         );
 
     public function user()
