@@ -65,7 +65,7 @@ class TopicController extends Controller
         if (empty($topic)) {
             abort(404);
         }    
-        return view('topic.edit', ['news_form' => $animal]);
+        return view('topic.edit', ['news_form' => $topic]);
     }
     public function update(Request $request)
     {

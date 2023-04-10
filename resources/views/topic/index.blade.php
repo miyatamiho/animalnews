@@ -38,17 +38,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($posts as $news)
+                            @foreach($posts as $post)
                                 <tr>
-                                    <th>{{ $animalnews->id }}</th>
-                                    <td>{{ Str::limit($animalnews->title, 100) }}</td>
-                                    <td>{{ Str::limit($animalnews->body, 250) }}</td>
+                                    <th>{{ $post->id }}</th>
+                                    <td>{{ Str::limit($post->title, 100) }}</td>
+                                    <td>{{ Str::limit($post->topic, 250) }}</td>
                                     <td>
                                         <div>
-                                            <a href="{{route('topic.edit', ['id' => $animalnews->id]) }}">編集</a>
+                                            <a href="{{route('topic.edit', ['id' => $post->id]) }}">編集</a>
                                         </div>
                                         <div>
-                                            <a href="{{route('topic.delete', ['id' => $animalnews->id]) }}">削除</a>
+                                            <a href="{{route('topic.delete', ['id' => $post->id]) }}">削除</a>
                                         </div>
                                     </td>
                                 </tr>
