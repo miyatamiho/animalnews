@@ -8,7 +8,7 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <a href="#" role="button" class="btn btn-primary">新規作成</a>
+                <a href="{{ route('topic.create') }}"  role="button" class="btn btn-primary">新規作成</a>
             </div>
             <div class="col-md-8">
                 <form action="{{ route('topic.index') }}" method="get">
